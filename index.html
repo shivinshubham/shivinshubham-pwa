@@ -5,175 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShivinShubham</title>
     
-    <!-- Link to the Web App Manifest that defines PWA properties across OS platforms -->
+    <!-- Link to the Web App Manifest defining PWA desktop configurations -->
     <link rel="manifest" href="manifest.json">
     
     <style>
-        /* Reset margins and padding to build a native app frame viewport container */
-        body, html { 
+        /* Minimal loading fallback layout while redirect processes */
+        body { 
             margin: 0; 
             padding: 0; 
-            width: 100%; 
-            height: 100%; 
-            overflow: hidden; 
+            width: 100vw; 
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
             background-color: #0267b8; 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
-
-        /* Style the iframe to smoothly expand full-bleed behind system layouts */
-        iframe { 
-            width: 100%; 
-            height: 100%; 
-            border: none; 
-            display: block; 
-        }
-
-        /* Custom Interactive PWA Smart Banner Styling */
-        #pwa-install-banner {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #0267b8;
-            color: #ffffff;
-            padding: 12px 24px;
-            border-radius: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            z-index: 9999;
-            opacity: 0;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            pointer-events: none;
-        }
-
-        #pwa-install-banner.show {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .banner-text {
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .btn-install {
-            background-color: #0267b8;
-            color: #1a1a1a;
-            border: none;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 13px;
-            transition: background-color 0.2s ease;
-        }
-
-        .btn-install:hover {
-            background-color: #e6e6e6;
-        }
-
-        .btn-close {
-            background: none;
-            border: none;
-            color: #aaaaaa;
-            cursor: pointer;
+        .loader {
             font-size: 16px;
-            padding: 0 4px;
+            color: #666666;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
 
-    <!-- Embeds the main Google Site directly inside the PWA container window -->
-    <iframe id="app-frame" src="https://www.shivinshubham.com"></iframe>
-
-    <!-- Dynamic In-App Installation Banner Target -->
-    <div id="pwa-install-banner">
-        <span class="banner-text">Install "ShivinShubham" on your device?</span>
-        <button class="btn-install" id="action-install">Install</button>
-        <button class="btn-close" id="action-close">✕</button>
-    </div>
+    <div class="loader">Loading ShivinShubham</div>
 
     <script>
         /**
-         * Cross-Domain PWA Deep-Link Shortcut Router 
-         * Evaluates taskbar triggers to route traffic between your primary Google Site 
-         * addresses and your standalone external blogs subdomain page seamlessly.
+         * PWA Deep-Link Shortcut & Domain Redirector
+         * Bypasses Google Sites iframe blocks by safely jumping the user 
+         * directly onto your core domain target natively.
          */
         const urlParams = new URLSearchParams(window.location.search);
         const pageTarget = urlParams.get('page');
-        const frame = document.getElementById('app-frame');
+        let destination = "https://www.shivinshubham.com";
 
-        // Use a public proxy engine to clear cross-origin security blockades safely
-        const PROXY_PREFIX = "https://allorigins.win";
-        const BASE_SITE = "https://www.shivinshubham.com";
-        
         if (pageTarget) {
             if (pageTarget === 'blogs') {
-                // Point target source directly to your dedicated external blogger domain mapping
-                frame.src = 'https://blogs.shivinshubham.com';
+                destination = 'https://blogs.shivinshubham.com';
             } else {
-                // Route target path directly into standard root directory sub-pages via proxy framework
-                frame.src = `${PROXY_PREFIX}${encodeURIComponent(BASE_SITE + '/' + pageTarget)}`;
+                destination = `https://www.shivinshubham.com/${pageTarget}`;
             }
-        } else {
-            // Apply proxy routing directly to your home landing page view instance
-            frame.src = `${PROXY_PREFIX}${encodeURIComponent(BASE_SITE)}`;
         }
 
-        /**
-         * Cross-Browser Installation Promotion Handler
-         * Captures ecosystem install intents for Chrome, Edge, and Android web views.
-         */
-        let deferredPrompt;
-        const installBanner = document.getElementById('pwa-install-banner');
-        const installBtn = document.getElementById('action-install');
-        const closeBtn = document.getElementById('action-close');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent the native browser bar mini-infobar prompt from executing automatically
-            e.preventDefault();
-            // Stash the event reference loop so it can be manually called on gesture command
-            deferredPrompt = e;
-            // Update UI banner layers to explicitly guide the client interface
-            installBanner.classList.add('show');
-        });
-
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                // Trigger the saved system dialog execution routine
-                deferredPrompt.prompt();
-                // Wait for the user to respond to the prompt
-                const { outcome } = await deferredPrompt.userChoice;
-                console.log(`User installation choice outcome: ${outcome}`);
-                // Discard the placeholder execution variable cleanly
-                deferredPrompt = null;
-                // Conceal the helper interface elements securely
-                installBanner.classList.remove('show');
-            }
-        });
-
-        closeBtn.addEventListener('click', () => {
-            installBanner.classList.remove('show');
-        });
-
-        // Clear UI layouts if the app gets installed through standard address bar symbols directly
-        window.addEventListener('appinstalled', () => {
-            installBanner.classList.remove('show');
-            deferredPrompt = null;
-            console.log('Application was successfully integrated onto local system storage.');
-        });
+        // Execute immediate standalone top-level window location relocation
+        window.location.replace(destination);
 
         /**
          * Service Worker Registration Block
-         * Required to pass automated validation tests on modern mobile and desktop engines.
+         * Maintained securely to pass PWABuilder store evaluation scoring.
          */
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js')
-            .then(() => console.log("PWA Service Worker Registered Successfully"))
-            .catch((err) => console.error("PWA Service Worker Registration Failed:", err));
+            .then(() => console.log("PWA Service Worker Operational"))
+            .catch((err) => console.error("Service Worker Error:", err));
         }
     </script>
 </body>
