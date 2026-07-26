@@ -1,0 +1,65 @@
+{
+  "name": "ShivinShubham",
+  "short_name": "ShivinShubham",
+  "description": "Official PWA and portfolio hub of ShivinShubham - Smart Solution, Smarter Experiences!",
+  "start_url": "index.html",
+  "scope": "./",
+  "lang": "en-US",
+  "dir": "ltr",
+  "display": "standalone",
+  "display_override": ["tabbed", "standalone"],
+  "background_color": "#ffffff",
+  "theme_color": "#0267b8",
+  "orientation": "any",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "About",
+      "url": "index.html?page=about",
+      "description": "Learn about the innovation behind ShivinShubham"
+    },
+    {
+      "name": "Products",
+      "url": "index.html?page=products",
+      "description": "Explore Bluzic, Play in, and Windows tools"
+    },
+    {
+      "name": "Blogs",
+      "url": "index.html?page=blogs",
+      "description": "Read our latest digital solution articles"
+    },
+    {
+      "name": "Help desk",
+      "url": "index.html?page=help-desk",
+      "description": "Access support channels and documentation"
+    },
+    {
+      "name": "Contact",
+      "url": "index.html?page=contact",
+      "description": "Get in touch for help desk or inquiries"
+    }
+  ],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "windows",
+      "url": "https://microsoft.com",
+      "id": "shivin-shubham-placeholder-id"
+    }
+  ],
+  "iarc_rating_id": ""
+}
