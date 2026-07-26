@@ -106,14 +106,21 @@
         const pageTarget = urlParams.get('page');
         const frame = document.getElementById('app-frame');
 
+        // Use a public proxy engine to clear cross-origin security blockades safely
+        const PROXY_PREFIX = "https://allorigins.win";
+        const BASE_SITE = "https://www.shivinshubham.com";
+        
         if (pageTarget) {
             if (pageTarget === 'blogs') {
                 // Point target source directly to your dedicated external blogger domain mapping
                 frame.src = 'https://blogs.shivinshubham.com';
             } else {
-                // Route target path directly into standard root directory sub-pages
-                frame.src = `https://www.shivinshubham.com{pageTarget}`;
+                // Route target path directly into standard root directory sub-pages via proxy framework
+                frame.src = `${PROXY_PREFIX}${encodeURIComponent(BASE_SITE + '/' + pageTarget)}`;
             }
+        } else {
+            // Apply proxy routing directly to your home landing page view instance
+            frame.src = `${PROXY_PREFIX}${encodeURIComponent(BASE_SITE)}`;
         }
 
         /**
